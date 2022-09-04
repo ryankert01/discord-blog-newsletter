@@ -17,5 +17,7 @@ jobs:
         with:
           node-version: "18.x"
       - run: npm i
+      - name: eecho
+        run: echo ${{ env.BOT_TOKEN }}
       - name: Generate
         run: node main.js ${{ env.BOT_TOKEN }}
