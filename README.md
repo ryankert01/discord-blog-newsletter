@@ -3,7 +3,7 @@ post daily new post within seleced blog on discord
 
 ## Prerequisite
 
-You have to first setup [this project](https://github.com/ryankert01/rss-friend), to use the api we setup in this project.
+You have to first setup [this project](https://github.com/ryankert01/rss-friend), to use the api we setup in it.
 
 ## How to use that:
 
