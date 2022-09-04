@@ -8,6 +8,7 @@ const token = process.env.SECRET_KEY;
 
 let data = [];
 
+// edit-api
 fetch('https://www.ryankert.cc/rss-friend/sorted.json')
     .then( (res) => res.json())
     .then((json) => {
@@ -29,6 +30,7 @@ client.once('ready', (c) => {
         process.exit();
     }
 
+    // edit-channel-id
     let channel = client.channels.cache.get('1015956897922297897');
     let returnData = String();
     returnData += '> **NewsLetter :**\n'
