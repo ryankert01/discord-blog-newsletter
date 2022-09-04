@@ -16,6 +16,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
+      - name: Generate .env
+        uses: du5rte/create-secrets-file@v1
+        with:
+          secrets: |
+            BOT_TOKEN=${{ secrets.BOT_TOKEN }}
+          # optionals
+          # file: .env
+          # mode: dotenv
+          # path: src
       - run: npm i
       - name: eecho
         run: echo ${{ secrets.BOT_TOKEN }}
