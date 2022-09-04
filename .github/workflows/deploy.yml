@@ -20,4 +20,4 @@ jobs:
       - name: eecho
         run: echo ${{ secrets.BOT_TOKEN }}
       - name: Generate
-        run: node main.js ${{ env.BOT_TOKEN }}
+        run: node main.js ${{ secrets.BOT_TOKEN }}
