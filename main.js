@@ -48,7 +48,6 @@ client.on('interactionCreate', async interaction => {
 		await interaction.reply('Server info.');
 	} else if (commandName === 'user') {
 		await interaction.reply("```nice```\nchad");
-        await interaction.reply('sdhf')
 	} else if (commandName === 'newsletter') {
         let returnData = String();
         returnData += '> **NewsLetter :**\n'
