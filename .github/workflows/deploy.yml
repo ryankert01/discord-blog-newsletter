@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
-      - name: Make envfile
+      - name: Make env file
         uses: SpicyPizza/create-envfile@v1.3
         with:
           envkey_DEBUG: false
@@ -25,8 +25,7 @@ jobs:
           some_other_variable: foobar
           file_name: .env
           fail_on_empty: false
-      - run: npm i
-      - name: eecho
-        run: echo ${{ secrets.BOT_TOKEN }}
-      - name: Generate
-        run: node main.js 
+      - name: Install Dependencies
+        run: npm i
+      - name: Run Server
+        run: npm run start

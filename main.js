@@ -16,9 +16,20 @@ fetch('https://www.ryankert.cc/rss-friend/sorted.json')
 
 
 // When the client is ready, run this code (only once)
+// main edit
 client.once('ready', (c) => {
 	console.log(`Ready! Logged in as ${c.user.tag}`);
-    const channel = client.channels.cache.get('1015897853920542772');
+
+    // logged out if no News aka. we have no new post yesterday.
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate()-1);
+    const firstDate = new Date(data[0].date);
+    if(firstDate.getDate() != yesterday.getDate() || firstDate.getMonth() != yesterday.getMonth() || firstDate.getFullYear() != yesterday.getFullYear()) {
+        console.log('No Avilable News');
+        process.exit();
+    }
+
+    let channel = client.channels.cache.get('1015956897922297897');
     let returnData = String();
     returnData += '> **NewsLetter :**\n'
     for(let i = 0; i < 3 && i < data.length; i++) {
@@ -34,7 +45,9 @@ client.once('ready', (c) => {
         returnData += '> link: ' + String(data[i].link) + '\n';
         if(i + 1 < 3 && i + 1 < data.length) returnData += '> \n';
     }
-    channel.send(returnData);
+    channel.send(returnData).then(() => {
+        client.destroy();
+    });
 });
 
 client.on('interactionCreate', async interaction => {
