@@ -1,6 +1,6 @@
-require('dotenv').config()
+require("dotenv").config();
 const { Client, GatewayIntentBits } = require("discord.js");
-const fs = require('fs');
+const fs = require("fs");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -9,80 +9,97 @@ const token = process.env.SECRET_KEY;
 let data = [];
 
 // edit-api
-fetch('https://www.ryankert.cc/rss-friend/sorted.json')
-    .then( (res) => res.json())
-    .then((json) => {
-        data = json;
-    })
-
+fetch("https://www.ryankert.cc/rss-friend/sorted.json")
+  .then((res) => res.json())
+  .then((json) => {
+    data = json;
+  });
 
 // When the client is ready, run this code (only once)
 // main edit
-client.once('ready', (c) => {
-	console.log(`Ready! Logged in as ${c.user.tag}`);
+client.once("ready", (c) => {
+  console.log(`Ready! Logged in as ${c.user.tag}`);
 
-    // logged out if no News aka. we have no new post yesterday.
-    const yesterday = new Date();
-    const firstDate = new Date(data[0].date);
-    if(firstDate.getDate() != yesterday.getDate() || firstDate.getMonth() != yesterday.getMonth() || firstDate.getFullYear() != yesterday.getFullYear()) {
-        console.log('No Avilable News');
-        process.exit();
-    }
+  // logged out if no News aka. we have no new post yesterday.
+  const yesterday = new Date();
+  const firstDate = new Date(data[0].date);
+  if (
+    firstDate.getDate() != yesterday.getDate() ||
+    firstDate.getMonth() != yesterday.getMonth() ||
+    firstDate.getFullYear() != yesterday.getFullYear()
+  ) {
+    console.log("No Avilable News");
+    process.exit();
+  }
 
-    // edit-channel-id
-    let channel = client.channels.cache.get('1015956897922297897');
-    let returnData = String();
-    returnData += '> **NewsLetter :**\n'
-    for(let i = 0; i < 3 && i < data.length; i++) {
-        const tempDate = new Date(data[i].date);
-        returnData += '> ';
-        if(tempDate.getMonth() < 9) returnData += '0';
-        returnData += String(tempDate.getMonth()+1) + '/';
-        if(tempDate.getDate() < 10) returnData += '0'
-        
-        returnData += String(tempDate.getDate()) + ' ';
+  // edit-channel-id
+  let channel = client.channels.cache.get("1015956897922297897");
+  let returnData = String();
+  returnData += "> **NewsLetter :**\n";
+  for (let i = 0; i < 3 && i < data.length; i++) {
+    const tempDate = new Date(data[i].date);
+    if (!samedate(tempDate, yesterday)) continue;
+    returnData += "> ";
+    if (tempDate.getMonth() < 9) returnData += "0";
+    returnData += String(tempDate.getMonth() + 1) + "/";
+    if (tempDate.getDate() < 10) returnData += "0";
 
-        returnData += String(data[i].title) + '\n';
-        returnData += '> link: ' + String(data[i].link) + '\n';
-        if(i + 1 < 3 && i + 1 < data.length) returnData += '> \n';
-    }
-    channel.send(returnData).then(() => {
-        client.destroy();
-    });
+    returnData += String(tempDate.getDate()) + " ";
+
+    returnData += String(data[i].title) + "\n";
+    returnData += "> link: " + String(data[i].link) + "\n";
+    if (i + 1 < 3 && i + 1 < data.length) returnData += "> \n";
+  }
+  channel.send(returnData).then(() => {
+    client.destroy();
+  });
 });
 
-client.on('interactionCreate', async interaction => {
-	if (!interaction.isChatInputCommand()) return;
+function samedate(a, b) {
+  if (
+    a.getDate() != b.getDate() ||
+    a.getMonth() != b.getMonth() ||
+    a.getFullYear() != b.getFullYear()
+  ) {
+    return false;
+  }
+  return true;
+}
 
-	const { commandName } = interaction;
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isChatInputCommand()) return;
 
-	if (commandName === 'ping') {
-		await interaction.reply('Pong!');
-	} else if (commandName === 'server') {
-		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
-	} else if (commandName === 'user') {
-		await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`);
-	} else if (commandName === 'newsletter') {
-        let returnData = String();
-        returnData += '> **NewsLetter :**\n'
-        for(let i = 0; i < 3 && i < data.length; i++) {
-            const tempDate = new Date(data[i].date);
-            returnData += '> ';
-            if(tempDate.getMonth() < 9) returnData += '0';
-            returnData += String(tempDate.getMonth()+1) + '/';
-            if(tempDate.getDate() < 10) returnData += '0'
-            
-            returnData += String(tempDate.getDate()) + ' ';
+  const { commandName } = interaction;
 
-            returnData += String(data[i].title) + '\n';
-            returnData += '> link: ' + String(data[i].link) + '\n';
-            if(i + 1 < 3 && i + 1 < data.length) returnData += '> \n';
-        }
-        await interaction.reply(returnData);
+  if (commandName === "ping") {
+    await interaction.reply("Pong!");
+  } else if (commandName === "server") {
+    await interaction.reply(
+      `Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`
+    );
+  } else if (commandName === "user") {
+    await interaction.reply(
+      `Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`
+    );
+  } else if (commandName === "newsletter") {
+    let returnData = String();
+    returnData += "> **NewsLetter :**\n";
+    for (let i = 0; i < 3 && i < data.length; i++) {
+      const tempDate = new Date(data[i].date);
+      returnData += "> ";
+      if (tempDate.getMonth() < 9) returnData += "0";
+      returnData += String(tempDate.getMonth() + 1) + "/";
+      if (tempDate.getDate() < 10) returnData += "0";
+
+      returnData += String(tempDate.getDate()) + " ";
+
+      returnData += String(data[i].title) + "\n";
+      returnData += "> link: " + String(data[i].link) + "\n";
+      if (i + 1 < 3 && i + 1 < data.length) returnData += "> \n";
     }
+    await interaction.reply(returnData);
+  }
 });
 
 // console.log(process.env.SECRET_KEY)
 client.login(token);
-
-
