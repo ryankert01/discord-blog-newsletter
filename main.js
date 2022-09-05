@@ -39,7 +39,7 @@ client.once("ready", (c) => {
   for (let i = 0; i < 3 && i < data.length; i++) {
     const tempDate = new Date(data[i].date);
     if (!samedate(tempDate, yesterday)) continue;
-    returnData += "> \n";
+    if (i != 0) returnData += "> \n";
     returnData += "> ";
     if (tempDate.getMonth() < 9) returnData += "0";
     returnData += String(tempDate.getMonth() + 1) + "/";
