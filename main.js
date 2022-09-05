@@ -39,6 +39,7 @@ client.once("ready", (c) => {
   for (let i = 0; i < 3 && i < data.length; i++) {
     const tempDate = new Date(data[i].date);
     if (!samedate(tempDate, yesterday)) continue;
+    returnData += "> \n";
     returnData += "> ";
     if (tempDate.getMonth() < 9) returnData += "0";
     returnData += String(tempDate.getMonth() + 1) + "/";
@@ -48,7 +49,6 @@ client.once("ready", (c) => {
 
     returnData += String(data[i].title) + "\n";
     returnData += "> link: " + String(data[i].link) + "\n";
-    if (i + 1 < 3 && i + 1 < data.length) returnData += "> \n";
   }
   channel.send(returnData).then(() => {
     client.destroy();
