@@ -23,7 +23,6 @@ client.once('ready', (c) => {
 
     // logged out if no News aka. we have no new post yesterday.
     const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate()-1);
     const firstDate = new Date(data[0].date);
     if(firstDate.getDate() != yesterday.getDate() || firstDate.getMonth() != yesterday.getMonth() || firstDate.getFullYear() != yesterday.getFullYear()) {
         console.log('No Avilable News');
