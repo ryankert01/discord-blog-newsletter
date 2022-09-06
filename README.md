@@ -35,7 +35,7 @@ fetch('https://www.ryankert.cc/rss-friend/sorted.json') // substitude that to yo
 
 
 > **Warning**
-> You have to manually enable github action, which forked repositories is disabled by default.
+> You have to manually enable github action, which forked repositories disabled by default.
 
 ## dev
 
