@@ -33,6 +33,10 @@ fetch('https://www.ryankert.cc/rss-friend/sorted.json') // substitude that to yo
 
 6. and you're all set.
 
+
+> **Warning**
+> You have to manually enable github action, which forked repositories is disabled by default.
+
 ## dev
 
 install dependencies
