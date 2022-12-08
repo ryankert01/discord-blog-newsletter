@@ -1,5 +1,5 @@
 # discord-blog-newsletter
-post daily new post within seleced blog on discord, on 7 a.m. (UTC-8) daily.
+post daily new post within seleced blog on discord, on 7 a.m. (UTC-8) daily. 
 
 ## Prerequisite
 
